@@ -1,0 +1,11 @@
+C:\Users\edgar\source\repos\schad-app\bin\Debug\schad-app.exe.config
+C:\Users\edgar\source\repos\schad-app\bin\Debug\schad-app.exe
+C:\Users\edgar\source\repos\schad-app\bin\Debug\schad-app.pdb
+C:\Users\edgar\source\repos\schad-app\obj\Debug\MVC-schad-app.csproj.AssemblyReference.cache
+C:\Users\edgar\source\repos\schad-app\obj\Debug\MVC-schad-app.csproj.SuggestedBindingRedirects.cache
+C:\Users\edgar\source\repos\schad-app\obj\Debug\schad_app.Form1.resources
+C:\Users\edgar\source\repos\schad-app\obj\Debug\schad_app.Properties.Resources.resources
+C:\Users\edgar\source\repos\schad-app\obj\Debug\MVC-schad-app.csproj.GenerateResource.cache
+C:\Users\edgar\source\repos\schad-app\obj\Debug\MVC-schad-app.csproj.CoreCompileInputs.cache
+C:\Users\edgar\source\repos\schad-app\obj\Debug\schad-app.exe
+C:\Users\edgar\source\repos\schad-app\obj\Debug\schad-app.pdb
