@@ -35,10 +35,24 @@ namespace schad_app.Repositories
                 command.Parameters.Add("@Total", SqlDbType.Decimal).Value = invoiceModel.Total;
                 if (command.ExecuteNonQuery() > 0)
                 {
+                    sb.Length=0;
+                    sb.Append("select max(id) from Invoice");
+                    command.CommandText = sb.ToString();
+                    int idInvoice = 0;
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            idInvoice = int.Parse(reader[0].ToString());
+                            break;
+                        }
+
+                    }
+                    command.Dispose();
                     sb.Length = 0;
                     sb.Append("insert into InvoiceDetail values (@CustomerID_D, @Qty_D, @Price_D, @TotalItbis_D, @SubTotal_D, @Total_D)");
                     command.CommandText = sb.ToString();
-                    command.Parameters.Add("@CustomerID_D", SqlDbType.Int).Value = invoiceModel.CustomerID;
+                    command.Parameters.Add("@CustomerID_D", SqlDbType.Int).Value = idInvoice;
                     command.Parameters.Add("@Qty_D", SqlDbType.Int).Value = invoiceModel.Qty;
                     command.Parameters.Add("@Price_D", SqlDbType.Decimal).Value = invoiceModel.Price;
                     command.Parameters.Add("@TotalItbis_D", SqlDbType.Decimal).Value = invoiceModel.TotalItbis;
@@ -67,9 +81,9 @@ namespace schad_app.Repositories
                 command.Connection = connection;
                 sb.Length = 0;
                 sb.Append("select i.customerId, d.qty, d.price, i.totalItbis, i.subtotal, i.total ")
-                    .Append("from Invoice i , InvoiceDetail d ")
-                    .Append("where i.CustomerId=d.CustomerId ")
-                    .Append("and i.CustomerId=@idCustomer");
+                    .Append("from Customers c, Invoice i , InvoiceDetail d ")
+                    .Append("where c.Id=i.CustomerId and i.id=d.CustomerId ")
+                    .Append("and c.id=@idCustomer ");
 
                 command.CommandText = sb.ToString();
                 command.Parameters.Add("@idCustomer", SqlDbType.Int).Value = idCustomer;

@@ -56,31 +56,30 @@ namespace schad_app
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(Constants.QUESTION, "question",
-                                 MessageBoxButtons.YesNo,
-                                 MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if(txtName.Text.Length>0 && txtAddress.Text.Length > 0)
             {
-                customer = new CustomerModel();
-                customer.Name = txtName.Text;
-                customer.Adress = txtAddress.Text;
-                customer.Status = cboStatus.Text;
-                customer.Type = cboTypeClient.Text;
-
-                bool save = this.customerController.saveCustomer(customer);
-
-                if (save)
+                var result = MessageBox.Show(Constants.QUESTION, "question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    MessageBox.Show(Constants.SUCCESS);
-                    loadData();
-                }
-                else
-                {
-                    MessageBox.Show(Constants.FAILED);
+                    customer = new CustomerModel();
+                    customer.Name = txtName.Text;
+                    customer.Adress = txtAddress.Text;
+                    customer.Status = cboStatus.Text;
+                    customer.Type = cboTypeClient.Text;
+
+                    bool save = this.customerController.saveCustomer(customer);
+
+                    if (save)
+                    {
+                        MessageBox.Show(Constants.SUCCESS);
+                        loadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show(Constants.FAILED);
+                    }
                 }
             }
-
         }
 
         private void btnNew_Click(object sender, EventArgs e)
@@ -105,11 +104,12 @@ namespace schad_app
 
         private void loadData()
         {
+
+            cboStatus.Items.Clear();
             cboStatus.Items.Add(Constants.ACTIVO);
             cboStatus.Items.Add(Constants.INACTIVO);
             cboStatus.Text = Constants.ACTIVO;
-
-
+            cboTypeClient.Items.Clear();
             cboTypeClient.Items.Add(Constants.LEAL);
             cboTypeClient.Items.Add(Constants.VISITA);
             cboTypeClient.Text = Constants.VISITA;
@@ -184,30 +184,31 @@ namespace schad_app
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(Constants.QUESTION, "question",
-                      MessageBoxButtons.YesNo,
-                      MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
+            if(txtName.Text.Length>0 && txtAddress.Text.Length > 0)
             {
-                customer = new CustomerModel();
-                customer.Id = int.Parse(txtID.Text);
-                customer.Name = txtName.Text;
-                customer.Adress = txtAddress.Text;
-                customer.Status = cboStatus.Text;
-                customer.Type = cboTypeClient.Text;
+                var result = MessageBox.Show(Constants.QUESTION, "question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                bool save = this.customerController.updateCustomer(customer);
-
-                if (save)
+                if (result == DialogResult.Yes)
                 {
-                    MessageBox.Show(Constants.SUCCESS);
-                    loadData();
+                    customer = new CustomerModel();
+                    customer.Id = int.Parse(txtID.Text);
+                    customer.Name = txtName.Text;
+                    customer.Adress = txtAddress.Text;
+                    customer.Status = cboStatus.Text;
+                    customer.Type = cboTypeClient.Text;
 
-                }
-                else
-                {
-                    MessageBox.Show(Constants.FAILED);
+                    bool save = this.customerController.updateCustomer(customer);
+
+                    if (save)
+                    {
+                        MessageBox.Show(Constants.SUCCESS);
+                        loadData();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show(Constants.FAILED);
+                    }
                 }
             }
         }
@@ -268,30 +269,34 @@ namespace schad_app
 
         private void btnSaveInvoice_Click(object sender, EventArgs e)
         {
-                invoiceModel= new InvoiceModel();
-                invoiceModel.CustomerID= int.Parse(txtID.Text);
-                invoiceModel.Qty= int.Parse(numericUpDownQTY.Value.ToString());
-                invoiceModel.Price = decimal.Parse(txtPrice.Text);
-                invoiceModel.TotalItbis = decimal.Parse(txtTotalITBIS.Text);
-                invoiceModel.SubTotal = decimal.Parse(lblSubTotal.Text);
-                invoiceModel.Total = decimal.Parse(lblTotal.Text);
+                if(txtID.Text.Length > 0 && lblTotal.Text.Length > 0 && txtPrice.Text.Length>0 
+                && int.Parse(numericUpDownQTY.Value.ToString())>0)
+                 {
+                    invoiceModel = new InvoiceModel();
+                    invoiceModel.CustomerID = int.Parse(txtID.Text);
+                    invoiceModel.Qty = int.Parse(numericUpDownQTY.Value.ToString());
+                    invoiceModel.Price = decimal.Parse(txtPrice.Text);
+                    invoiceModel.TotalItbis = decimal.Parse(txtTotalITBIS.Text);
+                    invoiceModel.SubTotal = decimal.Parse(lblSubTotal.Text);
+                    invoiceModel.Total = decimal.Parse(lblTotal.Text);
 
-                bool save = this.invoiceController.saveInvoice(invoiceModel);
-                if (save)
-                {
-                    MessageBox.Show(Constants.SUCCESS);
-                    loadData();
-                }
-                else
-                {
-                    MessageBox.Show(Constants.FAILED);
-                }
+                    bool save = this.invoiceController.saveInvoice(invoiceModel);
+                    if (save)
+                    {
+                        MessageBox.Show(Constants.SUCCESS);
+                        loadData();
+                    }
+                    else
+                    {
+                        MessageBox.Show(Constants.FAILED);
+                    }
+                 }    
             
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (this.dataGridView2.SelectedRows.Count > 0)
+        if (this.dataGridView2.SelectedRows.Count > 0)
             {
                 printOrder();  
             }
@@ -301,7 +306,7 @@ namespace schad_app
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("------------------------------------------------------------")
-                .Append("INFO PAYMENT")
+                .Append("INFO PAYMENT ")
                 .Append("Name: ").Append(txtName.Text).Append(Environment.NewLine)
                 .Append("Type Client: ").Append(cboTypeClient.Text).Append(Environment.NewLine)
                 .Append("Qty: ").Append(numericUpDownQTY.Value.ToString()).Append(Environment.NewLine)
